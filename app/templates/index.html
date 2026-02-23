@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khoudia - Portfolio 3D</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Canvas pour Three.js -->
+    <canvas id="bg"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-content">
+            <h1 class="logo">✨ Khoudia.dev</h1>
+            <div class="nav-links">
+                <a href="#home">Accueil</a>
+                <a href="#passions">Passions</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Section principale -->
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <h1 class="glitch" data-text="Khoudia">Khoudia</h1>
+                <p class="subtitle">DevOps & Cloud Engineer | Créatrice d'expériences 3D</p>
+                <div class="hero-stats">
+                    <div class="stat-card">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label">Années d'expérience</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Passions</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">🚀</span>
+                        <span class="stat-label">Projets innovants</span>
+                    </div>
+                </div>
+                <div class="random-quote" id="quote"></div>
+            </div>
+        </section>
+
+        <section id="passions" class="passions">
+            <h2 class="section-title">Mes Passions</h2>
+            <div class="passions-grid">
+                {% for passion in passions %}
+                <div class="passion-card" style="--card-color: {{ passion.color }}">
+                    <div class="card-icon">{{ passion.icon }}</div>
+                    <h3>{{ passion.name }}</h3>
+                    <p>{{ passion.description }}</p>
+                    <div class="tech-tags">
+                        {% for tech in passion.technologies %}
+                        <span class="tech-tag">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <h2 class="section-title">Restons Connectés</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p>📍 Sénégal</p>
+                    <p>💼 Disponible pour des collaborations</p>
+                    <p>🌟 Container ID: {{ hostname }}</p>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/khoudia" class="social-link">GitHub</a>
+                    <a href="https://linkedin.com/in/khoudia" class="social-link">LinkedIn</a>
+                    <a href="https://twitter.com/khoudia" class="social-link">Twitter</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <script>
+        // Fonction pour les citations aléatoires
+        async function updateQuote() {
+            try {
+                const response = await fetch('/api/random-quote');
+                const data = await response.json();
+                document.getElementById('quote').textContent = data.quote;
+            } catch (error) {
+                console.error('Error fetching quote:', error);
+            }
+        }
+        
+        // Mettre à jour la citation toutes les 10 secondes
+        updateQuote();
+        setInterval(updateQuote, 10000);
+    </script>
+</body>
+</html>
