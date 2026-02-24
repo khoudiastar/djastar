@@ -35,7 +35,7 @@ pipeline {
                 echo '📤 Push de l\'image vers Docker Hub...'
                 withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_PASSWORD')]) {
                     sh """
-                        echo ${DOCKER_PASSWORD} | docker login -u khoudia --password-stdin
+                        echo ${DOCKER_PASSWORD} | docker login -u khoudiastar --password-stdin
                         docker push ${DOCKER_IMAGE}:${DOCKER_TAG}
                         docker push ${DOCKER_IMAGE}:latest
                     """
